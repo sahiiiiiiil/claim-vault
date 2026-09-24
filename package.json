@@ -7,15 +7,16 @@
     "build": "next build",
     "start": "next start"
   },
-  "dependencies": {"devDependencies": {
-  "typescript": "latest",
-  "@types/react": "latest",
-  "@types/node": "latest"
-  }
+  "dependencies": {
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
     "viem": "latest",
     "wagmi": "latest"
+  },
+  "devDependencies": {
+    "typescript": "latest",
+    "@types/react": "latest",
+    "@types/node": "latest"
   }
 }
