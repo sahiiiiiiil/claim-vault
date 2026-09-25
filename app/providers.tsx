@@ -2,21 +2,37 @@
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider, createConfig, http } from "wagmi";
-import { mainnet } from "wagmi/chains";
-import { injected, walletConnect } from "wagmi/connectors";
+import { defineChain } from "viem";
+import { injected } from "wagmi/connectors";
+
+const robinhood = defineChain({
+  id: 4663,
+  name: "Robinhood Chain",
+  nativeCurrency: {
+    name: "Ether",
+    symbol: "ETH",
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://rpc.mainnet.chain.robinhood.com"],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: "Robinhood Explorer",
+      url: "https://explorer.mainnet.chain.robinhood.com",
+    },
+  },
+});
 
 const queryClient = new QueryClient();
 
 const config = createConfig({
-  chains: [mainnet],
-  connectors: [
-    injected(),
-    walletConnect({
-      projectId: "YOUR_WALLETCONNECT_PROJECT_ID",
-    }),
-  ],
+  chains: [robinhood],
+  connectors: [injected()],
   transports: {
-    [mainnet.id]: http(),
+    [robinhood.id]: http(),
   },
 });
 
