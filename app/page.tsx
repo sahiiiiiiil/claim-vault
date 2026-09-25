@@ -1,11 +1,19 @@
 "use client";
 
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import {
+  useAccount,
+  useChainId,
+  useConnect,
+  useDisconnect,
+} from "wagmi";
 
 export default function Home() {
   const { address, isConnected } = useAccount();
+  const chainId = useChainId();
   const { connectors, connect } = useConnect();
   const { disconnect } = useDisconnect();
+
+  const isRobinhood = chainId === 4663;
 
   return (
     <main>
@@ -23,14 +31,24 @@ export default function Home() {
               onClick={() => connect({ connector })}
               style={{ margin: "6px" }}
             >
-              Connect {connector.name}
+              {connector.name === "Injected"
+                ? "Connect Wallet"
+                : `Connect ${connector.name}`}
             </button>
           ))}
         </div>
       ) : (
         <div>
           <p>
-            Connected: {address?.slice(0, 6)}...{address?.slice(-4)}
+            Connected: {address?.slice(0, 6)}...
+            {address?.slice(-4)}
+          </p>
+
+          <p>
+            Network:{" "}
+            {isRobinhood
+              ? "Robinhood Chain ✓"
+              : `Wrong Network (${chainId})`}
           </p>
 
           <button onClick={() => disconnect()}>
